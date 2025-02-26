@@ -107,3 +107,24 @@ INSERT INTO amazonsalesprice (`Order ID`,`Units Sold`, `Total Profit`)
 VALUES( 404, 10000, 12000000);
 DELETE FROM amazonsalesorders WHERE `Order ID` = 404;
 
+SELECT `Item Type`, `Order ID`, LEFT(`Ship Date`,4) AS Shipyear,RIGHT(`Order Date`,2)AS OrderDay, 
+`Ship Date` - `Order Date` As Deliverytime,
+ABS(`Order Date` - `Ship Date`) As Deliverytime1
+ -- CAST(`Ship Date` AS DATE) - CAST (`Order Date`  As DATE) AS deliverytime,
+-- str_to_date(`Order Date`, '%y-%m-%d') as date1,
+-- str_to_date(`Order Date`, '%d-%m-%y') as date2,
+-- DATE_FORMAT(STR_TO_DATE(`Order Date`, '%m/%d/%Y'), '%Y/%m/%d') AS formatted_date
+-- `Ship Date`:: DATE - `Order Date`::DATE AS delivery_time
+FROM amazonsalesorders
+ORDER BY Deliverytime;
+
+-- Convert column data type from str to date 
+SELECT STR_TO_DATE('2/2/2012', '%m/%d/%Y');
+
+UPDATE amazonsalesorders SET `Order Date` = STR_TO_DATE(`Order Date`, '%m/%d/%Y');
+ALTER TABLE amazonsalesorders MODIFY  COLUMN `Order Date`  DATE ;
+DESCRIBE amazonsalesorders;
+UPDATE amazonsalesorders SET `Ship Date` = STR_TO_DATE(`Ship Date`, '%m/%d/%Y');
+ALTER TABLE amazonsalesorders MODIFY  COLUMN `Ship Date`  DATE;
+
+ALTER TABLE amazonsalesprice MODIFY COLUMN  `Unit Price` INTEGER;
